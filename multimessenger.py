@@ -8,7 +8,8 @@
 from twilio.rest import Client
 import smtplib
 from email.message import EmailMessage
-
+import fbchat
+from fbchat import Client
 
 
 
@@ -34,7 +35,7 @@ print ("""----------------------------------------------------------------------
 
 val = int(input("""
           Select your messaging option :
-          EMAIL [1]  |  SMS [2]  
+          EMAIL [1]  |  SMS [2]  |  FACEBOOK[3]
           """))
 if (val==1):
     msg=EmailMessage()
@@ -70,4 +71,19 @@ elif(val==2) :
     )
 
     print(message.body)
+
+elif (val == 3):
+
+    username = "7004864426"
+    password = "doodlydoo$07"
+    client = fbchat.Client(username, password)
+    no_of_friends = int(input("number of friends"))
+    for i in range(no_of_friends):
+        name = str(input("name: "))
+        friends = client.searchForUsers(name)
+        friend = friends[0]
+        msg = str(input("message: "))
+        sent = client.send(fbchat.models.Message(msg), friend.uid)
+        if sent:
+            print("message sent successfully")
 
